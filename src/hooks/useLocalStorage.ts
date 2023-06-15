@@ -1,17 +1,22 @@
 "use client"
 
-const useLocalStorage = (key:string,initialValue?:string) => {
-  localStorage.setItem(key,initialValue ? initialValue:"");
-  const setValue = (str:string)=>{
+const useLocalStorage = () => {
+  localStorage.setItem("storeTasksKey","_");
+  const addValue = (key:string,str:string)=>{
+    localStorage.setItem("storeTasksKey",localStorage.getItem("storeTasksKey")+" "+key);
     localStorage.setItem(key,str)
   }
 
-  const getValue = ()=>{
-    localStorage.getItem(key)
+  const getValue = (key:string)=>{
+    return localStorage.getItem(key);
+  }
+  const eraseValue = (key:string)=>{
+    return localStorage.removeItem("key");
   }
   return {
-    setValue:setValue,
-    getValue:getValue
+    setValue:addValue,
+    getValue:getValue,
+    eraseValue:eraseValue
   }
 }
 
