@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import useClientSideTime from "@/hooks/useClientSideTime";
 
 /**
   Calculates the time difference between the server time and client time.
@@ -15,6 +16,18 @@ export default function Home() {
   const moveToTaskManager = () => {
     router.push("/tasks");
   }
+  const now = new Date();
+  const getServerDate = ()=>{
+    return `${now.getDate()}-${now.getMonth()}-${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
+  }
+  const calc = (server:string, client:string)=>{
+    const sdate = server.split(" ")[0].split("-").map((date)=>(parseInt(date)));
+    const shours = server.split(" ")[1].split(":").map((hours)=>(parseInt(hours)));
+    const chours = client.split(" ")[1].split(":").map((hours)=>(parseInt(hours)));
+    const cdate = client.split(" ")[0].split("-").map((date)=>(parseInt(date)));
+    return `${sdate[0]-cdate[0]}-${sdate[1]-cdate[1]}-${sdate[2]-cdate[2]} ${sdate[0]-cdate[0]}:${sdate[1]-cdate[1]}`
+    
+  }
   return (
     <>
       <Head>
@@ -29,13 +42,13 @@ export default function Home() {
           {/* Display here the server time (DD-MM-AAAA HH:mm)*/}
           <p>
             Server time:{" "}
-            <span className="serverTime">{/* Replace with the value */}</span>
+            <span className="serverTime">{getServerDate()}</span>
           </p>
 
           {/* Display here the time difference between the server side and the client side */}
           <p>
             Time diff:{" "}
-            <span className="serverTime">{/* Replace with the value */}</span>
+            <span className="serverTime">{calc(getServerDate(),useClientSideTime())}</span>
           </p>
         </div>
 
