@@ -41,7 +41,11 @@ const useTaskManager = create<storeType>((set,get)=>({
   updateTask:(index,toUpdate)=>{
     const add = (index:number)=>{
       const arr = get().tasks;
-      arr[index]=toUpdate;
+      for(let i=0;i<arr.length;i++){
+        if(arr[i].id===index){
+          arr[i] = toUpdate;
+        }
+      }
       return arr;
     }
     set((state)=>(

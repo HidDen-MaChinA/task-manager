@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import { useTaskManager } from '@/store/useTaskManager';
 
 
@@ -9,7 +9,7 @@ interface Task {
 }
 
 const TaskManager = () => {
-  const createTaskRef = "this is a task"
+  const [state,setState] = useState("")
   const {
     tasks,
     searchTask,
@@ -20,7 +20,7 @@ const TaskManager = () => {
   } = useTaskManager();
 
   const handleAddTask = () => {
-    const title = createTaskRef; // Replace with the value in the createTaskRef 
+    const title = state; // Replace with the value in the createTaskRef 
     const newTask = {
       id: Date.now(),
       title,
@@ -50,7 +50,7 @@ const TaskManager = () => {
     <div>
       <h1>Task Manager</h1>
 
-      <input type="text" /*ref={}*//>
+      <input type="text" onInput={(e)=>{setState(e.target.value)}}/>
 
       <button onClick={handleAddTask}>Add Task</button>
 
@@ -61,6 +61,7 @@ const TaskManager = () => {
         {filteredTasks.map((task) => (
           <li key={task.id}>
             <input
+              key={task.id+1}
               type="text"
               value={task.title}
               onChange={(e) =>
